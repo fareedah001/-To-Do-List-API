@@ -1,36 +1,17 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import mongoose from "mongoose";
 
 // Define the Task schema
-const taskSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    // trim: true,
-  },
-  status: {
-    // type: String,
-    // required: true,
-    // unique: true,
-    // trim: true,
-    // lowercase: true,
-    type: String,
-    enum: ["pending", "completed"], // Example statuses
-    default: "pending",
-  },
-  user: {
-    type: String,
-    required: true,
-  },
-  // Add any additional fields you need
+const taskSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  completed: { type: Boolean, default: false },
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  // Link the task to a user
 });
 
-// Create the User model
-const task = mongoose.model("task", taskSchema);
-
-// Export the User model
-module.exports = task;
+const Task = mongoose.model("Task", taskSchema);
+export default Task;
